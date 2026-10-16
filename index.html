@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3Daysプログラム完走までのロードマップ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<style>
+:root{
+  --navy:#2B3A5C; --coral:#F0647A; --coral-dk:#C8405A; --coral-tx:#A8364D;
+  --bg:#FBF8F7; --card:#FFFFFF; --muted:#5F6672; --line:#F0ECEB; --pink:#FCEEF1;
+  --green:#2F7D5B; --green-bg:#E5F2EC; --gray:#9AA0A6;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--navy);font-family:'Zen Kaku Gothic New',system-ui,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--coral-dk)}
+.wrap{max-width:480px;margin:0 auto;padding:24px 20px 48px;display:flex;flex-direction:column;gap:12px}
+.eyebrow{font-size:12px;font-weight:700;color:var(--coral-tx);letter-spacing:.04em}
+h1{font-family:'Zen Maru Gothic',sans-serif;font-size:22px;line-height:30px;margin:0}
+h2{font-family:'Zen Maru Gothic',sans-serif;font-size:17px;margin:16px 0 0}
+.sub{font-size:13px;color:var(--muted)}
+.small{font-size:12px;color:var(--muted)}
+.card{background:var(--card);border-radius:16px;padding:14px 16px;box-shadow:0 1px 3px rgba(43,58,92,.08)}
+.row{display:flex;align-items:center;gap:10px}
+.between{display:flex;justify-content:space-between;align-items:baseline}
+.bar{height:8px;border-radius:4px;background:#F1E4E7;overflow:hidden;margin-top:8px}
+.bar>i{display:block;height:8px;border-radius:4px;background:var(--coral)}
+.big{font-family:'Zen Maru Gothic',sans-serif;font-size:26px;font-weight:700;color:var(--navy)}
+.stats{background:var(--pink);border-radius:16px;padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+.stats b.n{font-family:'Zen Maru Gothic',sans-serif;font-size:22px;color:var(--coral-tx)}
+.stats .bar{background:#F6D3DA}.stats .bar>i{background:var(--coral-dk)}
+.banner{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E8DDE0;border-radius:14px;padding:12px 14px;text-decoration:none;color:var(--navy);font-size:13px;line-height:19px}
+.tl{display:flex;gap:12px}
+.tl .rail{display:flex;flex-direction:column;align-items:center;width:28px;flex:none}
+.tl .rail .ln{flex:1;width:2px;background:#E8DDE0}
+.tl .body{flex:1;display:flex;flex-direction:column;gap:4px;padding-bottom:16px;min-width:0}
+.lbl{font-size:12px;font-weight:700}
+.lbl.ok{color:var(--green)}.lbl.todo{color:var(--coral-tx)}.lbl.soon{color:var(--muted)}
+.ttl{font-size:15px;font-weight:700;line-height:22px}
+.soon .ttl,.soon .desc{color:var(--muted)}
+.desc{font-size:13px;line-height:20px}
+.bonus{font-size:14px;line-height:21px}
+.bonus a{font-weight:700}
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;border:none;font-family:inherit;font-size:15px;font-weight:700;text-decoration:none;cursor:pointer;padding:0 16px;width:100%}
+.btn.primary{background:var(--coral-dk);color:#fff}
+.btn.navy{background:var(--navy);color:#fff}
+.btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+.btn:disabled{background:#E6E1E2;color:#6B6466;border:none;cursor:not-allowed}
+.btn.sm{min-height:38px;font-size:13px;width:auto;padding:0 14px;border-radius:10px}
+.next{background:var(--navy);color:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.next .pill{align-self:flex-start;font-size:11px;font-weight:700;background:var(--coral);color:#2B1A20;border-radius:999px;padding:2px 10px}
+.next .desc{color:#DCE2EE}
+.goal{background:#fff;border:2px dashed #F0A3B1;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.goal.open{border-style:solid;border-color:var(--coral)}
+.list{background:#fff;border-radius:16px;padding:4px 16px;box-shadow:0 1px 3px rgba(43,58,92,.08)}
+.item{display:flex;align-items:center;gap:12px;min-height:76px;border-bottom:1px solid var(--line);padding:10px 0}
+.item:last-child{border-bottom:none}
+.item .grow{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+textarea,input[type=email]{width:100%;border:1px solid #D9DCE3;border-radius:10px;padding:10px 12px;font-family:inherit;font-size:16px;line-height:22px;color:var(--navy);background:#fff}
+textarea{resize:vertical;min-height:110px}
+.sheet{position:fixed;inset:0;background:rgba(20,24,36,.45);display:none;align-items:flex-end;justify-content:center;z-index:10}
+.sheet.show{display:flex}
+.sheet .panel{background:var(--bg);width:100%;max-width:480px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
+.step-n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:11px;background:var(--navy);color:#fff;font-size:12px;margin-right:8px}
+.copybox{background:#fff;border:1px dashed #D9C4C9;border-radius:10px;padding:10px 12px;font-size:14px;line-height:21px;white-space:pre-wrap;word-break:break-word}
+.err{background:#FDECEE;color:#8A2236;border-radius:10px;padding:10px 12px;font-size:13px;line-height:19px}
+.ok-msg{background:var(--green-bg);color:#1F5C42;border-radius:10px;padding:10px 12px;font-size:13px;line-height:19px}
+.center{text-align:center}
+.loading{display:flex;flex-direction:column;align-items:center;gap:12px;padding:120px 0;color:var(--muted);font-size:14px}
+.spin{width:32px;height:32px;border:3px solid #F1E4E7;border-top-color:var(--coral);border-radius:50%;animation:sp 0.9s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+details summary{cursor:pointer;font-size:13px;color:var(--muted);padding:8px 0}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading"><div class="spin"></div>読み込んでいます…</div></div>
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== ここを書きかえる ===== */
+const LIFF_ID = '';   // LINE DevelopersのLIFF ID
+const GAS_URL = '';   // GASのウェブアプリURL（https://script.google.com/macros/s/.../exec）
+/* =========================== */
+
+const ICON = {
+  done:'<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:#2F7D5B;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10" style="fill:#E5F2EC"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>',
+  now:'<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" style="fill:#FCEEF1;stroke:#F0647A;stroke-width:2"/><circle cx="12" cy="12" r="4.5" style="fill:#C8405A"/></svg>',
+  lock:'<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:#9AA0A6;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10" style="fill:#F2F0F0;stroke:none"/><rect x="8" y="11" width="8" height="6" rx="1"/><path d="M9.5 11V9.5a2.5 2.5 0 0 1 5 0V11"/></svg>',
+  trophy:'<svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" style="fill:none;stroke:#C8405A;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10" style="fill:#FCEEF1;stroke:none"/><path d="M9 7h6v3a3 3 0 0 1-6 0zM12 13v3M9.5 17h5M9 8H7.5a1.5 1.5 0 0 0 1.5 3M15 8h1.5a1.5 1.5 0 0 1-1.5 3"/></svg>',
+  gift:'<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:#C8405A;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 9h18M12 9v12M12 9c-2-4-6-4-6-1.5S9 9 12 9zM12 9c2-4 6-4 6-1.5S15 9 12 9z"/></svg>',
+  plus:'<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="10" style="fill:#FCEEF1;stroke:#F0647A;stroke-width:1.5"/><path d="M12 8v8M8 12h8" style="stroke:#C8405A;stroke-width:2;stroke-linecap:round"/></svg>',
+  chev:'<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:none;fill:none;stroke:#5F6672;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M9 5l7 7-7 7"/></svg>',
+};
+
+const qs = new URLSearchParams(location.search);
+const DEBUG = qs.get('debug') ? { debugKey: qs.get('debug'), debugUid: qs.get('uid') || 'U_TEST_0001', debugName: qs.get('name') || 'テストユーザー' } : null;
+let TOKEN = '';
+let STATE = null;
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl = u => /^https?:\/\//i.test(String(u || '')) ? String(u) : '';
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} },
+};
+
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+
+async function api(action, extra){
+  const body = Object.assign({ action, token: TOKEN }, DEBUG || {}, extra || {});
+  const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(body) });
+  if (!res.ok) throw new Error('通信エラーが起きました（' + res.status + '）');
+  return res.json();
+}
+
+function openUrl(url){
+  url = safeUrl(url); if (!url) return;
+  if (!DEBUG && window.liff && liff.isInClient && liff.isInClient()) liff.openWindow({ url, external:false });
+  else window.open(url, '_blank', 'noopener');
+}
+
+async function boot(){
+  try {
+    if (!GAS_URL) throw new Error('GAS_URLが設定されていません');
+    if (!DEBUG) {
+      if (!LIFF_ID) throw new Error('LIFF_IDが設定されていません');
+      await liff.init({ liffId: LIFF_ID });
+      if (!liff.isLoggedIn()) { liff.login({ redirectUri: location.href }); return; }
+      TOKEN = liff.getAccessToken();
+    }
+    await load();
+  } catch (e) {
+    renderError(e.message || String(e));
+  }
+}
+
+async function load(){
+  const data = await api('state');
+  if (!data.ok) { renderError(data.error); return; }
+  STATE = data;
+  render();
+}
+
+function renderError(msg){
+  document.getElementById('app').innerHTML = `<div class="wrap"><h1>うまく開けませんでした</h1><div class="err">${esc(msg)}</div><button class="btn navy" onclick="location.reload()">もう一度読み込む</button><p class="small">何度やっても開けない場合は、特設LINEにご連絡ください。</p></div>`;
+}
+
+function stepIcon(s){
+  if (s.kind === '完走') return ICON.trophy;
+  if (s.done) return ICON.done;
+  if (s.open) return ICON.now;
+  return ICON.lock;
+}
+
+function bonusLinks(s){
+  if (!s.bonuses.length) return '';
+  return '<div class="bonus">' + s.bonuses.map(b => safeUrl(b.url)
+    ? `<a href="#" data-open="${esc(b.url)}">${esc(b.name)} を見る</a>`
+    : esc(b.name)).join('<br>') + '</div>';
+}
+
+function render(){
+  const S = STATE;
+  const route = S.steps.filter(s => s.kind !== '特典ゲット');
+  const gets = S.steps.filter(s => s.kind === '特典ゲット');
+  const required = route.filter(s => s.kind === 'マスト' || s.kind === '感想');
+  const doneReq = required.filter(s => s.done).length;
+  const doneGet = gets.filter(s => s.unlocked).length;
+
+  // 提出率：開いているマストワークのうち一番新しいもの
+  const openMust = route.filter(s => s.kind === 'マスト' && s.open);
+  const statStep = openMust[openMust.length - 1];
+  let statsHtml = '';
+  if (statStep && S.stats && S.stats.participants > 0) {
+    const n = S.stats.perStep[statStep.id] || 0;
+    const p = S.stats.participants;
+    const rate = Math.min(100, Math.round(n / p * 100));
+    statsHtml = `<div class="stats"><div class="between"><b style="font-size:13px">みんなの提出状況</b><span class="small" style="font-size:11px">5分ごとに更新</span></div>
+      <div class="sub">${esc(statStep.title)}</div>
+      <div style="font-size:14px;line-height:22px">参加中の ${p.toLocaleString()}人中 <b class="n">${n.toLocaleString()}人</b> が提出しました（${rate}%）</div>
+      <div class="bar"><i style="width:${rate}%"></i></div>
+      <div class="small" style="font-size:11px">※参加中＝マイページを開いたことがある人</div></div>`;
+  }
+
+  const routeHtml = route.map((s, i) => {
+    const isLast = i === route.length - 1;
+    if (s.kind === '完走') {
+      const names = s.bonusNames.map(n => '・' + esc(n)).join('<br>');
+      const inner = s.unlocked
+        ? `<div class="lbl ok">完走おめでとうございます！</div><div class="ttl">${esc(s.title)}</div>${bonusLinks(s)}`
+        : `<div class="lbl todo">ゴール・${esc(s.title)}</div>${names ? `<div class="bonus">${names}</div>` : ''}<div class="small" style="color:var(--coral-tx)">${esc(s.open ? s.desc : s.soonText)}</div>`;
+      return `<div class="tl"><div class="rail">${stepIcon(s)}</div><div class="goal ${s.unlocked ? 'open' : ''}">${inner}</div></div>`;
+    }
+    let body;
+    if (s.done) {
+      body = `<div class="lbl ok">${esc(s.title)}・提出済み</div><div class="ttl">${esc(s.desc)}</div>${bonusLinks(s)}`;
+    } else if (s.open) {
+      body = `<div class="next"><span class="pill">いまここ</span><div class="small" style="color:#DCE2EE">${esc(s.title)}</div><div class="ttl">${esc(s.desc)}</div>
+        ${s.bonusNames.length ? `<div class="desc" style="font-size:12px">提出すると届く特典：${s.bonusNames.map(esc).join('／')}</div>` : ''}
+        ${s.formUrl ? `<button class="btn" style="background:#fff;color:var(--navy)" data-open="${esc(s.formUrl)}" data-form="1">Googleフォームで回答する</button>
+        <div class="desc" style="font-size:12px">送信後、この画面に戻って「更新」を押すと提出済みになります</div>` : `<div class="desc">フォームは準備中です</div>`}</div>`;
+    } else {
+      body = `<div class="soon"><div class="lbl soon">${esc(s.title)}</div><div class="desc">${esc(s.desc)}</div></div><div class="small" style="color:var(--coral-tx)">${esc(s.soonText)}</div>`;
+    }
+    return `<div class="tl"><div class="rail">${stepIcon(s)}${isLast ? '' : '<div class="ln"></div>'}</div><div class="body">${body}</div></div>`;
+  }).join('');
+
+  const getHtml = gets.map(s => {
+    let status, action;
+    if (s.unlocked) { status = `<div class="lbl ok">${esc(s.title)}・受け取り済み</div>`; action = s.bonuses[0] && safeUrl(s.bonuses[0].url) ? `<a href="#" class="btn ghost sm" data-open="${esc(s.bonuses[0].url)}">見る</a>` : ''; }
+    else if (!s.open) { status = `<div class="lbl soon">${esc(s.title)}</div>`; action = `<span class="small">${esc(s.soonText)}</span>`; }
+    else if (s.done) { status = `<div class="lbl todo">${esc(s.title)}・シェア待ち</div>`; action = `<button class="btn navy sm" data-share="${esc(s.id)}">シェアする</button>`; }
+    else { status = `<div class="lbl todo">${esc(s.title)}・未回答</div>`; action = `<button class="btn navy sm" data-work="${esc(s.id)}">回答する</button>`; }
+    const name = s.bonusNames.length ? s.bonusNames.join('／') : (s.desc || '');
+    return `<div class="item">${s.unlocked ? ICON.done.replace(/28/g,'24') : (s.open ? ICON.plus : ICON.lock.replace(/28/g,'24'))}<div class="grow">${status}<div style="font-size:14px;line-height:20px;font-weight:500;${s.open ? '' : 'color:var(--muted)'}">${esc(name)}</div></div>${action}</div>`;
+  }).join('');
+
+  const note = safeUrl(S.settings.noteUrl);
+  document.getElementById('app').innerHTML = `<div class="wrap">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <div class="eyebrow">世界一分かりやすい株のはじめ方 3days</div>
+      <h1>3Daysプログラム<br>完走までのロードマップ</h1>
+      <div class="sub">${esc(S.user.name)}さんの進み具合</div>
+    </div>
+    <div class="card">
+      <div class="between"><b style="font-size:13px;color:var(--muted)">完走まで</b><span class="sub"><span class="big">${doneReq}</span> / ${required.length} ステップ</span></div>
+      <div class="bar"><i style="width:${required.length ? Math.round(doneReq / required.length * 100) : 0}%"></i></div>
+      ${gets.length ? `<div class="small" style="margin-top:8px">特典ゲットワーク：${doneGet} / ${gets.length} 受け取り済み</div>` : ''}
+    </div>
+    ${statsHtml}
+    ${note ? `<a class="banner" href="#" data-open="${esc(note)}">${ICON.gift}<span style="flex:1"><b>参加10大特典・11月追加特典</b><br>オプチャのノートから受け取れます</span>${ICON.chev}</a>` : ''}
+    <div><h2>完走ルート</h2><div class="small">マストワークと感想で、完走特典が開きます</div></div>
+    <div>${routeHtml}</div>
+    ${gets.length ? `<div><h2>特典ゲットワーク</h2><div class="small">やりたいものから自由にどうぞ。オプチャにシェアすると特典が届きます</div></div><div class="list">${getHtml}</div>` : ''}
+    <button class="btn ghost" id="reload">更新する</button>
+    <details><summary>マストワークを出したのに提出済みにならない方へ</summary>
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div class="desc">Googleフォームに入力したメールアドレスを入れてください。あなたの提出とつなげます。</div>
+        <label for="email" class="small">メールアドレス</label>
+        <input type="email" id="email" autocomplete="email" placeholder="example@mail.com">
+        <div id="linkMsg"></div>
+        <button class="btn navy" id="linkBtn">つなげる</button>
+      </div>
+    </details>
+    <p class="small center">${esc(S.settings.supportText)}</p>
+  </div>`;
+}
+
+/* ===== 特典ゲットワーク：回答 → シェア → 特典 ===== */
+
+function openSheet(html){ document.getElementById('panel').innerHTML = html; document.getElementById('sheet').classList.add('show'); }
+function closeSheet(){ document.getElementById('sheet').classList.remove('show'); }
+
+function showWork(id){
+  const s = STATE.steps.find(x => x.id === id);
+  const draft = store.get('draft_' + id) || '';
+  openSheet(`<div class="between"><b class="eyebrow">${esc(s.title)}</b><button class="btn ghost sm" data-close="1">閉じる</button></div>
+    <label for="ans" class="ttl" style="font-size:16px">${esc(s.question || s.desc || '回答を書いてください')}</label>
+    <textarea id="ans" placeholder="${esc(s.example || '')}">${esc(draft)}</textarea>
+    <div class="small" style="text-align:right"><span id="cnt">0</span>文字${s.minChars ? `（${s.minChars}文字以上で提出できます）` : ''}</div>
+    <div class="small">この回答はオプチャでシェアする前提です。個人情報は書かないでください。</div>
+    <div id="workMsg"></div>
+    <button class="btn primary" id="sendBtn" data-send="${esc(id)}">回答を送る</button>`);
+  const ta = document.getElementById('ans');
+  const upd = () => { document.getElementById('cnt').textContent = ta.value.trim().length; store.set('draft_' + id, ta.value); };
+  ta.addEventListener('input', upd); upd();
+}
+
+async function sendWork(id){
+  const s = STATE.steps.find(x => x.id === id);
+  const ans = document.getElementById('ans').value.trim();
+  const msg = document.getElementById('workMsg');
+  if (ans.length < (s.minChars || 0)) { msg.innerHTML = `<div class="err">${s.minChars}文字以上で入力してください（いま${ans.length}文字）</div>`; return; }
+  const btn = document.getElementById('sendBtn'); btn.disabled = true; btn.textContent = '送信しています…';
+  try {
+    const r = await api('submit', { stepId: id, answer: ans });
+    if (!r.ok) throw new Error(r.error);
+    store.del('draft_' + id);
+    s.done = true; s.receipt = r.receipt; s.answer = ans;
+    showShare(id);
+  } catch (e) {
+    msg.innerHTML = `<div class="err">${esc(e.message)}<br>書いた文章は消えていません。もう一度「回答を送る」を押してください。</div>`;
+    btn.disabled = false; btn.textContent = '回答を送る';
+  }
+}
+
+function showShare(id){
+  const s = STATE.steps.find(x => x.id === id);
+  const text = `【${s.title}】\n${s.answer || ''}`;
+  const opened = store.get('opened_' + id) === '1';
+  openSheet(`<div class="between"><b class="eyebrow">回答を受け付けました</b><button class="btn ghost sm" data-close="1">閉じる</button></div>
+    <div class="small">${esc(s.title)}・受付番号 ${esc(s.receipt)}</div>
+    <div class="ttl" style="font-size:16px">オプチャにシェアして特典を受け取ろう</div>
+    <div><span class="step-n">1</span><b style="font-size:13px">回答をコピーする</b></div>
+    <div class="copybox" id="copyText">${esc(text)}</div>
+    <button class="btn ghost" id="copyBtn">回答をコピー</button>
+    <div><span class="step-n">2</span><b style="font-size:13px">オプチャに貼り付けて投稿する</b></div>
+    <button class="btn navy" id="ocBtn" data-oc="${esc(id)}">オプチャを開く</button>
+    <div><span class="step-n">3</span><b style="font-size:13px">投稿できたら押す</b></div>
+    <button class="btn primary" id="postedBtn" data-posted="${esc(id)}" ${opened ? '' : 'disabled'}>オプチャに投稿しました</button>
+    <div class="small center" id="postedHint">${opened ? '' : '「オプチャを開く」を押すと、押せるようになります'}</div>
+    <div id="shareMsg"></div>`);
+}
+
+async function copyAnswer(){
+  const text = document.getElementById('copyText').textContent;
+  try { await navigator.clipboard.writeText(text); toast('コピーしました'); }
+  catch (e) {
+    const r = document.createRange(); r.selectNodeContents(document.getElementById('copyText'));
+    const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    toast('文章を長押ししてコピーしてください');
+  }
+}
+
+function openChat(id){
+  store.set('opened_' + id, '1');
+  const b = document.getElementById('postedBtn'); if (b) b.disabled = false;
+  const h = document.getElementById('postedHint'); if (h) h.textContent = '';
+  const url = STATE.settings.openchatUrl;
+  if (url) openUrl(url); else toast('オプチャのURLが未設定です');
+}
+
+async function markPosted(id){
+  const b = document.getElementById('postedBtn'); b.disabled = true; b.textContent = '確認しています…';
+  try {
+    const r = await api('posted', { stepId: id });
+    if (!r.ok) throw new Error(r.error);
+    await load();
+    const s = STATE.steps.find(x => x.id === id);
+    openSheet(`<div class="ok-msg">シェアありがとうございます！特典が開きました</div>
+      <div class="ttl" style="font-size:16px">${esc(s.bonusNames.join('／'))}</div>
+      ${s.bonuses.map(x => safeUrl(x.url) ? `<button class="btn primary" data-open="${esc(x.url)}">${esc(x.name)} を開く</button>` : '').join('')}
+      <button class="btn ghost" data-close="1">ロードマップに戻る</button>`);
+  } catch (e) {
+    document.getElementById('shareMsg').innerHTML = `<div class="err">${esc(e.message)}</div>`;
+    b.disabled = false; b.textContent = 'オプチャに投稿しました';
+  }
+}
+
+async function linkEmail(){
+  const email = document.getElementById('email').value.trim();
+  const box = document.getElementById('linkMsg');
+  const btn = document.getElementById('linkBtn'); btn.disabled = true;
+  try {
+    const r = await api('link', { email });
+    if (!r.ok) throw new Error(r.error);
+    box.innerHTML = '<div class="ok-msg">つながりました！表示を更新します</div>';
+    setTimeout(load, 800);
+  } catch (e) { box.innerHTML = `<div class="err">${esc(e.message)}</div>`; btn.disabled = false; }
+}
+
+document.addEventListener('click', async ev => {
+  const t = ev.target.closest('[data-open],[data-work],[data-share],[data-send],[data-oc],[data-posted],[data-close],#copyBtn,#reload,#linkBtn');
+  if (!t) { if (ev.target.id === 'sheet') closeSheet(); return; }
+  ev.preventDefault();
+  if (t.dataset.open) openUrl(t.dataset.open);
+  else if (t.dataset.work) showWork(t.dataset.work);
+  else if (t.dataset.share) showShare(t.dataset.share);
+  else if (t.dataset.send) sendWork(t.dataset.send);
+  else if (t.dataset.oc) openChat(t.dataset.oc);
+  else if (t.dataset.posted) markPosted(t.dataset.posted);
+  else if (t.dataset.close) { closeSheet(); render(); }
+  else if (t.id === 'copyBtn') copyAnswer();
+  else if (t.id === 'reload') { t.disabled = true; t.textContent = '更新しています…'; try { await load(); toast('最新の状態になりました'); } catch(e){ renderError(e.message); } }
+  else if (t.id === 'linkBtn') linkEmail();
+});
+
+// LINEアプリに戻ってきたとき、自動で最新にする
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && STATE && !document.getElementById('sheet').classList.contains('show')) load().catch(()=>{});
+});
+
+boot();
+</script>
+</body>
+</html>
