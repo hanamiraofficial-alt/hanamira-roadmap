@@ -226,7 +226,7 @@ function render(){
     <div style="display:flex;flex-direction:column;gap:4px">
       <div class="eyebrow">世界一分かりやすい株のはじめ方 3days</div>
       <h1>3Daysプログラム<br>完走までのロードマップ</h1>
-      <div class="sub">${esc(S.user.name)}さんの進み具合</div>
+      <div class="between" style="align-items:center;gap:8px"><div class="sub">${esc(S.user.name)}さんの進み具合</div><button class="btn ghost sm" id="reload" style="flex:none">更新する</button></div>
     </div>
     <div class="card">
       <div class="between"><b style="font-size:13px;color:var(--muted)">完走まで</b><span class="sub"><span class="big">${doneReq}</span> / ${required.length} ステップ</span></div>
@@ -238,7 +238,7 @@ function render(){
     <div><h2>完走ルート</h2><div class="small">マストワークと感想で、完走特典が開きます</div></div>
     <div>${routeHtml}</div>
     ${gets.length ? `<div><h2>特典ゲットワーク</h2><div class="small">やりたいものから自由にどうぞ。オプチャにシェアすると特典が届きます</div></div><div class="list">${getHtml}</div>` : ''}
-    <button class="btn ghost" id="reload">更新する</button>
+    
     <details><summary>マストワークを出したのに提出済みにならない方へ</summary>
       <div class="card" style="display:flex;flex-direction:column;gap:10px">
         <div class="desc">Googleフォームに入力したメールアドレスを入れてください。あなたの提出とつなげます。</div>
