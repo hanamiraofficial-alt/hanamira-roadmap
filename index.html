@@ -204,7 +204,7 @@ function render(){
       body = `<div class="next"><span class="pill">いまここ</span><div class="small" style="color:#DCE2EE">${esc(s.title)}</div><div class="ttl">${esc(s.desc)}</div>
         ${s.bonusNames.length ? `<div class="desc" style="font-size:12px">提出すると届く特典：${s.bonusNames.map(esc).join('／')}</div>` : ''}
         ${s.formUrl ? `<button class="btn" style="background:#fff;color:var(--navy)" data-open="${esc(s.formUrl)}" data-form="1">フォームで回答する</button>
-        <div class="desc" style="font-size:12px">送信後、この画面に戻って「更新」を押すと提出済みになります</div>` : `<div class="desc">フォームは準備中です</div>`}</div>`;
+        <div class="desc" style="font-size:12px">送信後、提出済みになるまで5〜10分ほどかかります。すぐに表示が変わらなくても受け付けていますので、2回送らなくて大丈夫です</div>` : `<div class="desc">フォームは準備中です</div>`}</div>`;
     } else {
       body = `<div class="soon"><div class="lbl soon">${esc(s.title)}</div><div class="desc">${esc(s.desc)}</div></div><div class="small" style="color:var(--coral-tx)">${esc(s.soonText)}</div>`;
     }
