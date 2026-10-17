@@ -226,7 +226,7 @@ function render(){
     <div style="display:flex;flex-direction:column;gap:4px">
       <div class="eyebrow">世界一分かりやすい株のはじめ方 3days</div>
       <h1>3Daysプログラム<br>完走までのロードマップ</h1>
-      <div class="between" style="align-items:center;gap:8px"><div class="sub">${esc(S.user.name)}さんの進み具合</div><button class="btn ghost sm" id="reload" style="flex:none">更新する</button></div>
+      <div class="between" style="align-items:center;gap:8px"><div class="sub">${esc(S.user.name)}さんの進み具合</div><button class="btn primary sm" id="reload" style="flex:none;box-shadow:0 2px 6px rgba(200,64,90,.35)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>更新する</button></div>
     </div>
     <div class="card">
       <div class="between"><b style="font-size:13px;color:var(--muted)">完走まで</b><span class="sub"><span class="big">${doneReq}</span> / ${required.length} ステップ</span></div>
