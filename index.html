@@ -215,8 +215,7 @@ function render(){
     let status, action;
     if (s.unlocked) { status = `<div class="lbl ok">${esc(s.title)}・受け取り済み</div>`; action = s.bonuses[0] && safeUrl(s.bonuses[0].url) ? `<a href="#" class="btn ghost sm" data-open="${esc(s.bonuses[0].url)}">見る</a>` : ''; }
     else if (!s.open) { status = `<div class="lbl soon">${esc(s.title)}</div>`; action = `<span class="small">${esc(s.soonText)}</span>`; }
-    else if (s.done) { status = `<div class="lbl todo">${esc(s.title)}・シェア待ち</div>`; action = `<button class="btn navy sm" data-share="${esc(s.id)}">シェアする</button>`; }
-    else { status = `<div class="lbl todo">${esc(s.title)}・未回答</div>`; action = `<button class="btn navy sm" data-work="${esc(s.id)}">回答する</button>`; }
+    else { status = `<div class="lbl todo">${esc(s.title)}・未受け取り</div>`; action = `<button class="btn navy sm" data-share="${esc(s.id)}">受け取る</button>`; }
     const name = s.bonusNames.length ? s.bonusNames.join('／') : (s.desc || '');
     return `<div class="item">${s.unlocked ? ICON.done.replace(/28/g,'24') : (s.open ? ICON.plus : ICON.lock.replace(/28/g,'24'))}<div class="grow">${status}<div style="font-size:14px;line-height:20px;font-weight:500;${s.open ? '' : 'color:var(--muted)'}">${esc(name)}</div></div>${action}</div>`;
   }).join('');
@@ -291,20 +290,16 @@ async function sendWork(id){
 }
 
 function showShare(id){
+  // 案B：オプチャに投稿したら「投稿しました」を押すだけで特典が開く
   const s = STATE.steps.find(x => x.id === id);
-  const text = `【${s.title}】\n${s.answer || ''}`;
-  const opened = store.get('opened_' + id) === '1';
-  openSheet(`<div class="between"><b class="eyebrow">回答を受け付けました</b><button class="btn ghost sm" data-close="1">閉じる</button></div>
-    <div class="small">${esc(s.title)}・受付番号 ${esc(s.receipt)}</div>
-    <div class="ttl" style="font-size:16px">オプチャにシェアして特典を受け取ろう</div>
-    <div><span class="step-n">1</span><b style="font-size:13px">回答をコピーする</b></div>
-    <div class="copybox" id="copyText">${esc(text)}</div>
-    <button class="btn ghost" id="copyBtn">回答をコピー</button>
-    <div><span class="step-n">2</span><b style="font-size:13px">オプチャに貼り付けて投稿する</b></div>
-    <button class="btn navy" id="ocBtn" data-oc="${esc(id)}">オプチャを開く</button>
-    <div><span class="step-n">3</span><b style="font-size:13px">投稿できたら押す</b></div>
-    <button class="btn primary" id="postedBtn" data-posted="${esc(id)}" ${opened ? '' : 'disabled'}>オプチャに投稿しました</button>
-    <div class="small center" id="postedHint">${opened ? '' : '「オプチャを開く」を押すと、押せるようになります'}</div>
+  const q = s.question || s.desc || '';
+  openSheet(`<div class="between"><b class="eyebrow">${esc(s.title)}</b><button class="btn ghost sm" data-close="1">閉じる</button></div>
+    <div class="ttl" style="font-size:16px">オプチャに${esc(s.title)}を投稿したら、下のボタンを押してください</div>
+    ${q ? `<div class="copybox">${esc(q)}</div>` : ''}
+    ${s.bonusNames.length ? `<div class="small">開く特典：${s.bonusNames.map(esc).join('／')}</div>` : ''}
+    <button class="btn primary" id="postedBtn" data-posted="${esc(id)}">オプチャに投稿しました</button>
+    <div class="small center">まだの方は、先にオプチャに投稿してくださいね</div>
+    <button class="btn ghost" id="ocBtn" data-oc="${esc(id)}">オプチャを開く</button>
     <div id="shareMsg"></div>`);
 }
 
@@ -329,6 +324,12 @@ function openChat(id){
 async function markPosted(id){
   const b = document.getElementById('postedBtn'); b.disabled = true; b.textContent = '確認しています…';
   try {
+    const s0 = STATE.steps.find(x => x.id === id);
+    if (!s0.done) {
+      // 回答欄はなくしたので、提出記録には定型文を入れてから投稿済みにする
+      const r0 = await api('submit', { stepId: id, answer: 'オプチャに投稿済み（マイページの「オプチャに投稿しました」ボタンを押して本人が申告しました）' });
+      if (!r0.ok) throw new Error(r0.error);
+    }
     const r = await api('posted', { stepId: id });
     if (!r.ok) throw new Error(r.error);
     await load();
