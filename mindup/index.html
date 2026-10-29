@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>理想の未来への最短ルート診断</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --navy:#2B3A5C; --coral:#F0647A; --coral-soft:#FDECEF; --gray:#9AA0A6;
+  --bg:#FFF9F7; --card:#FFFFFF; --line:#EFE3E0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--navy);font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;font-size:16px;line-height:1.75;-webkit-text-size-adjust:100%}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 48px}
+header{padding:30px 4px 14px;text-align:center}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--coral);font-weight:700}
+h1{font-size:24px;line-height:1.45;margin:6px 0 8px}
+h1 small{display:block;font-size:14px;font-weight:600;opacity:.75}
+.by{font-size:12px;color:var(--gray)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 18px;margin:16px 0;box-shadow:0 2px 10px rgba(43,58,92,.05)}
+.step{display:inline-block;background:var(--coral);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:2px 12px;margin-bottom:6px}
+h2{font-size:19px;line-height:1.5;margin:4px 0 8px}
+p{margin:0 0 12px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--coral-soft);border-radius:14px;padding:12px;margin:12px 0;font-size:13px;font-weight:700;text-align:center}
+.nav div{flex:1}.nav .pin{font-size:22px;display:block}.nav .arrow{flex:none;color:var(--coral)}
+.opts{display:grid;gap:10px;margin-top:6px}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1.5px solid #E2D6D3;background:#fff;color:var(--navy);border-radius:14px;padding:12px 14px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;line-height:1.5}
+.opt .ic{font-size:22px;flex:none}
+.opt[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-soft);box-shadow:0 0 0 2px var(--coral) inset}
+.qbox{border-top:1px dashed var(--line);padding-top:14px;margin-top:14px}
+.qbox:first-of-type{border-top:none;padding-top:0;margin-top:4px}
+.qnum{font-size:12px;color:var(--coral);font-weight:700}
+.qtext{font-weight:700;font-size:16px;margin:2px 0 8px}
+.yn{display:flex;gap:10px}
+.yn button{flex:1;border:1.5px solid #E2D6D3;background:#fff;color:var(--navy);border-radius:12px;padding:10px 6px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;line-height:1.4}
+.yn button[aria-pressed="true"]{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn{display:block;width:100%;border:none;border-radius:999px;padding:14px 16px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;text-align:center}
+.btn.primary{background:var(--coral);color:#fff;box-shadow:0 3px 10px rgba(240,100,122,.35)}
+.btn.primary:disabled{background:#E9C3CA;box-shadow:none;cursor:default}
+.btn.ghost{background:#fff;color:var(--navy);border:1.5px solid #E2D6D3;font-size:14px;padding:11px 16px}
+.need{font-size:12px;color:var(--gray);text-align:center;margin-top:8px}
+#result{display:none}
+#result.show{display:block;animation:up .4s ease}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero{display:block;width:100%;max-width:420px;margin:0 auto 10px;border-radius:18px}
+.subt{font-size:15px;font-weight:700;color:var(--coral);margin-bottom:6px}
+.navimg{display:block;width:100%;border-radius:14px;margin:12px 0}
+.ill{width:40px;height:40px;object-fit:contain;vertical-align:middle}
+.ill.sm{width:28px;height:28px}
+.ill.lg{width:120px;height:120px}
+.step.lesson{background:var(--navy)}
+.reason{background:var(--coral-soft);border-radius:14px;padding:12px 14px;margin:10px 0 0;font-size:14px}
+.reason b{display:block;font-size:15px;margin-bottom:2px}
+.reason .rn{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--coral);border-radius:999px;padding:0 8px;margin-bottom:4px}
+.more{text-align:center;font-size:13px;font-weight:700;color:var(--coral);margin:20px 0 8px}
+details.les{border:1.5px solid var(--line);border-radius:14px;margin:10px 0;background:#fff;overflow:hidden}
+details.les summary{list-style:none;cursor:pointer;padding:14px 40px 14px 14px;font-weight:700;font-size:15px;position:relative;line-height:1.5}
+details.les summary::-webkit-details-marker{display:none}
+details.les summary::after{content:"＋";position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--coral);font-size:18px}
+details.les[open] summary::after{content:"－"}
+details.les .ln{display:block;font-size:11px;color:var(--coral);letter-spacing:.08em}
+.lbody{padding:0 14px 14px;font-size:14px}
+.lbody p{margin:0 0 10px}
+.myth,.truth,.mview{border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.myth{background:#F4F6FA}.truth{background:var(--coral-soft)}.mview{background:#FFF6E8;margin-bottom:0}
+.myth b,.truth b,.mview b{display:block;font-size:13px;margin-bottom:2px}
+ol.dq{margin:0 0 10px;padding-left:1.3em;font-weight:700}
+ol.dq li{margin-bottom:6px}
+.small{font-size:12px;color:var(--gray)}
+.closing{text-align:center;font-size:14px;margin:18px 0 6px}
+.closing .big{font-size:18px;font-weight:800;color:var(--coral);margin:10px 0;line-height:1.5}
+.route{margin:6px 0 16px}
+.route .node{background:#F4F6FA;border-radius:14px;padding:10px 12px;text-align:center;font-size:13px}
+.route .node b{display:block;font-size:12px;color:var(--gray)}
+.route .node.goal{background:var(--coral-soft)}
+.route .node.goal b{color:var(--coral)}
+.route .arr{text-align:center;color:var(--coral);font-size:14px;line-height:1;margin:6px 0}
+.route .power{margin:0;border:2px solid var(--coral)}
+.map{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:stretch;margin:6px 0 14px}
+.map .box{background:#F4F6FA;border-radius:14px;padding:10px;text-align:center;font-size:13px;line-height:1.6}
+.map .box b{display:block;font-size:12px;color:var(--gray);font-weight:700}
+.map .box.goal{background:var(--coral-soft)}
+.map .mid{display:flex;align-items:center;color:var(--coral);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:4px}
+.chip{background:#fff;border-radius:999px;padding:1px 8px;font-size:12px}
+.power{text-align:center;background:linear-gradient(160deg,#FDECEF,#FFF6F2);border-radius:18px;padding:20px 14px;margin:6px 0 14px}
+.power .lbl{font-size:13px;font-weight:700}
+.power .name{font-size:30px;font-weight:800;color:var(--coral);line-height:1.35;margin:4px 0}
+.power .emoji{font-size:40px;line-height:1}
+.power .catch{font-size:14px;font-weight:700}
+h3{font-size:16px;margin:16px 0 6px}
+ul{margin:0 0 8px;padding-left:1.2em}
+li{margin-bottom:4px}
+.sub{background:#F4F6FA;border-radius:14px;padding:12px 14px;font-size:14px}
+.sub b{color:var(--coral)}
+.moneybox{background:#FFF6E8;border:1px solid #F6E2C0;border-radius:14px;padding:14px;font-size:14px;margin:6px 0 4px}
+.moneybox b{display:block;font-size:15px;margin-bottom:6px}
+.days{background:var(--coral-soft);border-radius:14px;padding:14px;font-size:14px;margin-top:14px}
+.save{font-size:13px;text-align:center;color:var(--navy);margin:14px 0 8px}
+.btns{display:grid;gap:10px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.foot{font-size:11px;color:var(--gray);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">特典ゲットワーク② 特典</div>
+  <h1><small>タップするだけ1分</small>理想の未来への<br>最短ルート診断</h1>
+  <div class="subt">あなたに必要な「〇〇力」がわかる✨</div>
+  <div class="by">世界一分かりやすい株のはじめ方3daysプログラム｜松下りせ</div>
+</header>
+
+<section class="card">
+  <span class="step lesson">LESSON</span>
+  <h2>なぜ「現在地」を知ると、理想が叶いやすくなるの？</h2>
+  <p>理想の未来を叶えるために大切なのは、<b>「目的地」と「現在地」</b>の両方を知ること。</p>
+  <div class="nav" id="navfb">
+    <div><span class="pin">📍</span>現在地</div>
+    <div class="arrow">→→</div>
+    <div><span class="pin">🏁</span>目的地</div>
+  </div>
+  <p>カーナビで目的地を入れるとき、現在地も入れますよね。自分の今を知ることで、理想までの最短ルートが見えてくるんです。</p>
+  <div class="reason"><span class="rn">理由①</span><b>理想までの距離がつかめる</b>今どこにいるかが分かると、ゴールまで「あとどれくらいか」がはっきりします。</div>
+  <div class="reason"><span class="rn">理由②</span><b>やるべきことが、もっと明確になる</b>距離が分かれば、目的地に向かって何から始めればいいかが見えてきます。</div>
+  <p style="margin:12px 0 0">ワーク①②で、あなたの目的地はもう見えてきました。<br>次は、直感でタップして<b>現在地</b>を確かめ、<b>ゴールまでに伸ばしたい力</b>を見つけましょう✨</p>
+</section>
+
+<section class="card">
+  <span class="step">STEP 1</span>
+  <h2>🏁 あなたの目的地は？</h2>
+  <p>ワーク①②で書いた理想に、いちばん近いものを1つ選んでください。<br><span style="font-size:13px">いくつも当てはまる人は、いちばん叶えたいものを選んでね。</span></p>
+  <div class="opts" id="goals"></div>
+</section>
+
+<section class="card">
+  <span class="step">STEP 2</span>
+  <h2>📍 あなたの現在地は？</h2>
+  <p>いまの自分に近いほうを、直感で選んでください。</p>
+  <div id="qs"></div>
+</section>
+
+<button class="btn primary" id="go" disabled>診断結果を見る</button>
+<div class="need" id="need"></div>
+
+<section class="card" id="result" aria-live="polite"></section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── 目的地（ワーク①②の理想に近いもの） ──
+const GOALS = [
+  { id:'time',   ic:'⏰', label:'時間と働き方の自由', desc:'好きなときに働く、会社に縛られない', add:{ time:1 } },
+  { id:'travel', ic:'✈️', label:'旅行・好きな場所での暮らし', desc:'行きたい場所に、行きたいときに', add:{ money:1 } },
+  { id:'family', ic:'👨‍👩‍👧', label:'大切な人との時間', desc:'家族や友だちと過ごす時間をたっぷり', add:{ time:1 } },
+  { id:'child',  ic:'🎓', label:'子どもの未来', desc:'教育や留学の選択肢を増やしたい', add:{ money:1 } },
+  { id:'home',   ic:'🏡', label:'理想の住まい', desc:'引っ越し・マイホーム・ローン完済', add:{ money:1 } },
+  { id:'self',   ic:'💄', label:'自分へのごほうび', desc:'美容・学び・推し活に、値段を気にせず', add:{ step:1 } },
+  { id:'secure', ic:'🛡', label:'将来の安心', desc:'老後やもしものときに困らない', add:{ money:1 } },
+];
+
+// ── 現在地（4つの質問）。gapは伸ばしたい力に+3、それ以外は「加速する力」に+1 ──
+const QS = [
+  { id:'q1', text:'今の自分の人生、好き？', a:{ label:'好き！', add:{ boost:1 }, chip:'今の人生が好き' }, b:{ label:'もっと好きになりたい', add:{ vision:3 }, chip:'もっと好きになりたい' } },
+  { id:'q2', text:'新しいことに挑戦するのは？', a:{ label:'ワクワクする', add:{ boost:1 }, chip:'挑戦にワクワク' }, b:{ label:'ちょっと怖い', add:{ step:3 }, chip:'挑戦はちょっと怖い' } },
+  { id:'q3', text:'自分のための時間は？', a:{ label:'とれている', add:{ boost:1 }, chip:'自分時間あり' }, b:{ label:'足りない', add:{ time:3 }, chip:'毎日忙しい' } },
+  { id:'q4', text:'理想を叶えるお金は？', a:{ label:'もうある', add:{ boost:1 }, chip:'お金の準備あり' }, b:{ label:'これから増やしたい', add:{ money:3 }, chip:'お金はこれから' } },
+  { id:'q5', text:'投資は？', a:{ label:'まだこれから', add:{ step:1 }, chip:'投資はこれから' }, b:{ label:'始めているけど自信がない', add:{ money:1 }, chip:'投資は始めている' } },
+];
+const DAYS = {
+  a:'3daysでは、知識ゼロからでも分かるように、株のはじめ方を一から一緒に学びます。',
+  b:'3daysでは、「買ってみたけどうまくいかない」を卒業して、資産を増やす投資の考え方をお伝えします。',
+};
+
+// ── 結果（伸ばしたい力） ──
+const POWERS = {
+  time: { name:'時間を生み出す力', emoji:'⏳', catch:'忙しい毎日の中に、未来のための時間をつくる力',
+    body:'理想がはっきりしているからこそ、「時間が足りない」がいちばんのブレーキになっているかも。忙しい人ほど、時間の使い方を少し変えるだけで、景色がガラッと変わります。',
+    tips:['1日の中で「なんとなく使っている15分」を1つ見つける','その15分を、理想に近づくことに使ってみる'],
+    money:'お金に働いてもらえるようになると、自分が働く時間を減らしても、収入を保てるようになります。時間を生み出すいちばんの近道は、お金にも働いてもらうことなんです。',
+    myth:'時間がないのは、私の段取りが悪いから。', truth:'多くの人は「自分の時間」と「お金」を交換して収入を得ています。この形だと、収入を増やすには働く時間を増やすしかなく、時間はいつまでも足りません。あなたのせいではなく、仕組みの問題なんです。', mview:'収入の入り口を「自分が働く」だけでなく「お金に働いてもらう」にも広げると、時間とお金の交換から少しずつ自由になれます。時間を生み出す力は、お金の力とセットで大きくなります。', dq:['何を手放したり、何を得たりしたら、時間のある自分になれる？', '今いちばん「なんとなく」使っている時間はどこ？'],
+    gift:'特典ゲットワーク①の音声「忙しくても望む未来を叶える時間の作り方4ステップ」がぴったりです🎧' },
+  money:{ name:'お金を育てる力', emoji:'🌱', catch:'お金に働いてもらって、理想の金額に近づく力',
+    body:'目的地は見えている。あとは「お金をどう増やすか」が分かれば、理想までの道のりがぐっと近くなります。節約だけでなく、お金そのものを育てる視点がカギです。',
+    tips:['理想を叶えるのに「いくらあればいいか」をざっくり書き出す','毎日使っているお店やサービスを運営している会社を、1つ調べてみる'],
+    money:'お金は、あなたの代わりに働いてくれる心強い味方。お金が育つほど、働く時間も、場所も、自分で選べるようになっていきます。',
+    myth:'お金を増やすには、もっと節約するか、もっと働くしかない。', truth:'節約には限りがあり、働ける時間にも限りがあります。さらに、物の値段が上がっていくと、ただ置いておくだけのお金は、買えるものが少しずつ減っていきます。', mview:'お金を「使う・貯める」だけでなく「育てる」場所に置くと、お金があなたの代わりに働いてくれます。その代表が、会社の成長を応援して、その成長を分けてもらう株式投資です。', dq:['もっとお金があったら嬉しい？それは、いくらくらい？', 'どれくらい足りないと感じる？それは、なぜ？'],
+    gift:'特典ゲットワーク③（11/2発表）で、身の回りに眠るお宝株のヒントをお届けします👀' },
+  step: { name:'一歩踏み出す力', emoji:'👣', catch:'「やってみたい」を「やってみた」に変える力',
+    body:'慎重なのは、大切なものを守れる強みです。あとは小さな一歩を重ねるだけ。完璧に準備できてからではなく、「小さく試す」が理想への近道です。',
+    tips:['「失敗しても大丈夫なくらい小さな一歩」を1つ決める','やってみたことを、オプチャでシェアしてみる'],
+    money:'手元にお金の余裕があると、挑戦のハードルはぐっと下がります。お金は「やってみていいよ」と背中を押してくれる、お守りのような存在です。',
+    myth:'失敗しないように、完璧に準備してから始めたい。', truth:'準備だけをしていると、いつまでも「いつか」のまま。実際にやってみて分かることのほうが、ずっと多いものです。慎重さは、正しい一歩を選べるあなたの強みでもあります。', mview:'投資も同じで、少ない金額から小さく始めれば、うまくいかなくても学びに変えられます。小さく試して慣れていく人ほど、あとで大きく伸びていきます。', dq:['失敗したら、どうなるイメージがある？それは本当に起こりそう？', 'もし絶対に失敗しないとしたら、何から始めたい？'],
+    gift:'3daysでは、知識ゼロからでも安心して一歩目を踏み出せる方法をお伝えします💓' },
+  vision:{ name:'理想を描く力', emoji:'🎨', catch:'「こうなりたい」をはっきり描いて、人生を自分で選ぶ力',
+    body:'「もっと好きになりたい」と思えるのは、理想がちゃんとある証拠。目的地をはっきり描くほど、毎日の選択が変わり、人生が自分のものになっていきます。',
+    tips:['理想の1日を、朝起きてから寝るまで書き出してみる','「本当はやりたいこと」を3つ、値段を気にせず書いてみる'],
+    money:'描いた理想を「選べる」自由を支えてくれるのが、お金です。お金が味方になると、理想は夢ではなく、選べる未来になります。',
+    myth:'理想なんて、考えても仕方ない。', truth:'わたしたちは思っている以上に、他人のものさし（周りの普通・世間の正解）で生きています。自分の理想がぼんやりしていると、毎日の選択もつい周りに合わせがちです。', mview:'理想がはっきりすると、「いつまでに、いくら必要か」が見えてきます。お金の目標が決まると、投資の計画も立てやすくなり、理想が現実の予定に変わります。', dq:['どうしたら、今の人生を「心から好き」と言える？', 'その理想は、本当にあなた自身が望んでいること？'],
+    gift:'ワーク②で書いた理想の暮らしを、もう一度読み返してみてくださいね✨' },
+  boost:{ name:'チャンスをつかむ力', emoji:'🚀', catch:'今のいい流れに乗って、理想をさらに加速させる力',
+    body:'今の自分をちゃんと大切にできているあなた。土台はすでに整っています。あとは「お金」という味方を増やせば、理想が叶うスピードがぐんと上がります。',
+    tips:['すでに叶っていることを3つ書き出して、自分をほめる','次のステージで叶えたいことを、1つ足してみる'],
+    money:'すでに整っている土台に、お金という味方が加われば、理想が叶うスピードはぐんと上がります。',
+    myth:'今うまくいっているから、このままで十分。', truth:'今の満足は、これまでのあなたが選んできた結果。同じように、これからの選択が、5年後・10年後の景色をつくります。', mview:'時間や心に余裕がある今こそ、お金を育てる準備を始めるチャンス。余裕があるときに始めた人ほど、落ち着いて長く続けられます。', dq:['今の人生の、具体的にどんなところが好き？', '理想を叶えたその先で、次にやりたいことは？'],
+    gift:'3daysでは、資産を大きく増やす投資の考え方をお伝えします📈' },
+};
+const ORDER = ['time','money','step','vision','boost']; // 同点のときの優先順
+
+let goal = null; const ans = {};
+const KEY = 'hanamira_route_2026';
+function icon(name, emoji){ return emoji; }
+function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function toast(t){ const el=document.getElementById('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1800); }
+
+document.getElementById('goals').innerHTML = GOALS.map(g=>`
+  <button type="button" class="opt" data-goal="${g.id}" aria-pressed="false"><span class="ic">${icon("goal_"+g.id, g.ic)}</span><span>${esc(g.label)}<br><span style="font-size:12px;font-weight:400">${esc(g.desc)}</span></span></button>`).join('');
+document.getElementById('qs').innerHTML = QS.map((q,i)=>`
+  <div class="qbox">
+    <div class="qnum">質問 ${i+1}</div>
+    <div class="qtext">${esc(q.text)}</div>
+    <div class="yn">
+      <button type="button" data-q="${q.id}" data-v="a" aria-pressed="false">${esc(q.a.label)}</button>
+      <button type="button" data-q="${q.id}" data-v="b" aria-pressed="false">${esc(q.b.label)}</button>
+    </div>
+  </div>`).join('');
+
+function refresh(){
+  document.querySelectorAll('[data-goal]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.goal===goal)));
+  QS.forEach(q=>document.querySelectorAll(`[data-q="${q.id}"]`).forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===ans[q.id]))));
+  const left = (goal?0:1) + QS.filter(q=>!ans[q.id]).length;
+  document.getElementById('go').disabled = left>0;
+  document.getElementById('need').textContent = left>0 ? `あと${left}つ選ぶと、結果が見られます` : '';
+}
+
+function calc(){
+  const sc = { money:0, time:0, step:0, vision:0, boost:0 };
+  const addAll = o=>Object.entries(o).forEach(([k,v])=>sc[k]+=v);
+  addAll(GOALS.find(g=>g.id===goal).add);
+  QS.forEach(q=>addAll(q[ans[q.id]].add));
+  const rank = ORDER.slice().sort((x,y)=>sc[y]-sc[x] || ORDER.indexOf(x)-ORDER.indexOf(y));
+  return { main: rank[0], sub: rank[1]!=='boost' && sc[rank[1]]>=3 ? rank[1] : null };
+}
+
+function showResult(scroll){
+  const r = calc(); const g = GOALS.find(x=>x.id===goal); const p = POWERS[r.main];
+  const el = document.getElementById('result');
+  el.innerHTML = `
+    <span class="step">診断結果</span>
+    <h2>あなたの最短ルート</h2>
+    <p style="font-size:14px">現在地から目的地までの近道は、この力を伸ばすことです。</p>
+    <div class="route">
+      <div class="node"><b>📍 現在地</b><div class="chips">${QS.map(q=>`<span class="chip">${esc(q[ans[q.id]].chip)}</span>`).join('')}</div></div>
+      <div class="arr">▼</div>
+      <div class="power">
+        <div class="lbl">ゴールまでに必要なのは…</div>
+        <div class="emoji">${icon("power_"+r.main, p.emoji, "lg")}</div>
+        <div class="name">${esc(p.name)}</div>
+        <div class="catch">${esc(p.catch)}</div>
+      </div>
+      <div class="arr">▼</div>
+      <div class="node goal"><b>🏁 目的地</b><div style="font-size:16px;font-weight:700;margin-top:2px">${icon("goal_"+g.id, g.ic, "sm")} ${esc(g.label)}</div></div>
+    </div>
+    <p>${esc(p.body)}</p>
+    <h3>今日からできる小さな一歩</h3>
+    <ul>${p.tips.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
+    ${r.sub ? `<div class="sub">あわせて伸ばしたいのは <b>${esc(POWERS[r.sub].name)}</b> ${POWERS[r.sub].emoji}<br>${esc(POWERS[r.sub].catch)}</div>` : ''}
+    <p class="more">▼ ここからは、あなたのためのミニレッスンです</p>
+
+    <details class="les" open>
+      <summary><span class="ln">LESSON 1</span>${esc(p.name)}を伸ばすために</summary>
+      <div class="lbody">
+        <div class="myth"><b>😢 よくある思い込み</b>「${esc(p.myth)}」</div>
+        <div class="truth"><b>💡 本当は…</b>${esc(p.truth)}</div>
+        <div class="mview"><b>💰 お金の視点で見ると</b>${esc(p.mview)}</div>
+      </div>
+    </details>
+
+    <details class="les">
+      <summary><span class="ln">LESSON 2</span>「お金がない」の正体</summary>
+      <div class="lbody">
+        <p>「あなたは、お金がある？ない？」と聞かれると、多くの人が「ない」と答えます。</p>
+        <p>でもそれは、正確には<b>「自分の理想の額に、まだ届いていない」</b>ということ。</p>
+        <p>わたしたちは思っている以上に、自分の今を正しくつかめていません。気づかないうちに、他人のものさしで「足りない」と感じていることもあります。</p>
+        <p style="margin:0">「ない」ではなく、<b>「理想まで、あといくら？」</b>と考えてみる。それだけで、理想までの距離と、やるべきことが見えてきます。</p>
+      </div>
+    </details>
+
+    <details class="les">
+      <summary><span class="ln">LESSON 3</span>お金は、理想をサポートしてくれる味方</summary>
+      <div class="lbody">
+        <p>${esc(p.money)}</p>
+        <p style="margin:0">「${esc(g.label)}」を叶えるのにも、時間を増やすのにも、自由に働くのにも、お金がしっかり支えてくれます。お金は「目的」ではなく、あなたの理想を叶えるための<b>心強いパートナー</b>なんです。</p>
+      </div>
+    </details>
+
+    <details class="les">
+      <summary><span class="ln">WORK</span>深掘りクエスチョン</summary>
+      <div class="lbody">
+        <p>答えた理由を「なんでそう思うんだろう？」と振り返ると、理想までの距離がもっとはっきり見えてきます。</p>
+        <ol class="dq">${p.dq.map(q=>`<li>${esc(q)}</li>`).join('')}</ol>
+        <p class="small" style="margin:0">📝 紙やスマホのメモに書き出すと、より思考がクリアになりますよ。</p>
+      </div>
+    </details>
+
+    <div class="closing">
+      <p>現在地と目的地を、住所まではっきりさせたら、あとは適切な手段をとって「やるだけ」。</p>
+      <div class="big">「想像できる未来」は、<br>叶えることができます。</div>
+      <p style="margin:0">理想を叶えた先には、もっともっとやりたいことが増えていく。そんな世界が広がるはずです✨</p>
+    </div>
+
+    <div class="days">💡 ${esc(p.gift)}<br><br>${esc(DAYS[ans.q5])}<br>12月1日・3日・5日の3daysで、目的地までの最短ルートを一緒に学びましょうね💓</div>
+    <p class="save">📸 この画面をスクショしておくと、いつでも見返せます</p>
+    <div class="foot">選んだ内容は、このスマホの中だけで使われます。どこにも送信されません。</div>`;
+  el.classList.add('show');
+  try { localStorage.setItem(KEY, JSON.stringify({ goal, ans })); } catch(e){}
+  if (scroll) el.scrollIntoView({ behavior:'smooth', block:'start' });
+
+}
+
+document.addEventListener('click', e=>{
+  const g = e.target.closest('[data-goal]'); if (g){ goal = g.dataset.goal; refresh(); return; }
+  const q = e.target.closest('[data-q]'); if (q){ ans[q.dataset.q] = q.dataset.v; refresh(); }
+});
+document.getElementById('go').onclick = ()=>showResult(true);
+
+// 前回の結果があれば表示する
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+  if (saved && saved.goal && QS.every(q=>saved.ans && saved.ans[q.id])) { goal = saved.goal; Object.assign(ans, saved.ans); refresh(); showResult(false); }
+} catch(e){}
+refresh();
+</script>
+</body>
+</html>
