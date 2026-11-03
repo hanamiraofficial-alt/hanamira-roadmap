@@ -167,8 +167,9 @@ function bonusLinks(s){
 
 function render(){
   const S = STATE;
-  const route = S.steps.filter(s => s.kind !== '特典ゲット');
+  const route = S.steps.filter(s => s.kind !== '特典ゲット' && s.kind !== '追加特典');
   const gets = S.steps.filter(s => s.kind === '特典ゲット');
+  const extras = S.steps.filter(s => s.kind === '追加特典');
   const required = route.filter(s => s.kind === 'マスト' || s.kind === '感想');
   const doneReq = required.filter(s => s.done).length;
   const doneGet = gets.filter(s => s.unlocked).length;
@@ -211,6 +212,15 @@ function render(){
     return `<div class="tl"><div class="rail">${stepIcon(s)}${isLast ? '' : '<div class="ln"></div>'}</div><div class="body">${body}</div></div>`;
   }).join('');
 
+  // 11月追加特典：公開日時がきたら誰でも受け取れる（URLは「問い」列に入れる）
+  const extraHtml = extras.map(s => {
+    const url = s.open ? safeUrl(s.question) : '';
+    const status = url ? `<div class="lbl ok">公開中</div>` : `<div class="lbl soon">Coming soon</div>`;
+    const action = url ? `<a href="#" class="btn navy sm" data-open="${esc(s.question)}">見る</a>` : '';
+    const sub = url ? s.desc : s.soonText;
+    return `<div class="item">${url ? ICON.plus : ICON.lock.replace(/28/g,'24')}<div class="grow">${status}<div style="font-size:14px;line-height:20px;font-weight:500;${url ? '' : 'color:var(--muted)'}">${esc(s.title)}</div>${sub ? `<div class="small">${esc(sub)}</div>` : ''}</div>${action}</div>`;
+  }).join('');
+
   const getHtml = gets.map(s => {
     let status, action;
     if (s.unlocked) { status = `<div class="lbl ok">${esc(s.title)}・受け取り済み</div>`; action = s.bonuses[0] && safeUrl(s.bonuses[0].url) ? `<a href="#" class="btn ghost sm" data-open="${esc(s.bonuses[0].url)}">見る</a>` : ''; }
@@ -233,10 +243,11 @@ function render(){
       ${gets.length ? `<div class="small" style="margin-top:8px">特典ゲットワーク：${doneGet} / ${gets.length} 受け取り済み</div>` : ''}
     </div>
     ${statsHtml}
-    ${note ? `<a class="banner" href="#" data-open="${esc(note)}">${ICON.gift}<span style="flex:1"><b>参加10大特典・11月追加特典</b><br>オプチャのノートから受け取れます</span>${ICON.chev}</a>` : ''}
+    ${note ? `<a class="banner" href="#" data-open="${esc(note)}">${ICON.gift}<span style="flex:1"><b>オプチャのノート</b><br>お知らせや参加特典の案内はこちら</span>${ICON.chev}</a>` : ''}
     <div><h2>完走ルート</h2><div class="small">マストワークと感想で、完走特典が開きます</div></div>
     <div>${routeHtml}</div>
     ${gets.length ? `<div><h2>特典ゲットワーク</h2><div class="small">やりたいものから自由にどうぞ。オプチャにシェアすると特典が届きます</div></div><div class="list">${getHtml}</div>` : ''}
+    ${extras.length ? `<div><h2>11月追加特典</h2><div class="small">公開されたものから、どなたでも受け取れます</div></div><div class="list">${extraHtml}</div>` : ''}
     
     <details><summary>マストワークを出したのに提出済みにならない方へ</summary>
       <div class="card" style="display:flex;flex-direction:column;gap:10px">
