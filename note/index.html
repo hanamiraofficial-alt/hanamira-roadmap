@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>お金が増える人の資産管理ノート</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --ink:#4A4458; --pink:#C9679A; --pink-soft:#F7E6EF; --lav:#B9A8D6; --lav-soft:#EEE9F6; --gray:#9A96A6;
+  --bg:#FAF7FB; --card:#FFFFFF; --line:#ECE6F1;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;font-size:16px;line-height:1.8;-webkit-text-size-adjust:100%}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 56px}
+.cover{margin:0 -16px;padding:56px 24px 40px;text-align:center;background:
+  linear-gradient(135deg,rgba(255,255,255,.55) 0 30%,transparent 30%),
+  linear-gradient(225deg,rgba(255,255,255,.45) 0 22%,transparent 22%),
+  linear-gradient(160deg,#F6D7E6 0%,#E7DDF2 55%,#D9E1F4 100%)}
+.cover .ey{font-size:12px;letter-spacing:.18em;color:var(--pink);font-weight:700}
+.cover h1{font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;font-weight:600;font-size:30px;line-height:1.45;margin:14px 0 10px;letter-spacing:.06em}
+.cover p{font-size:13px;margin:0;color:#6b6478}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 18px;margin:18px 0;box-shadow:0 2px 12px rgba(74,68,88,.05)}
+.msg{border:2px solid #E8C6DA;border-radius:22px;font-size:14px}
+.msg .hl{color:var(--pink);font-weight:700;background:linear-gradient(transparent 60%,#F7DCEA 60%)}
+.msg .sign{text-align:right;font-size:12px;letter-spacing:.2em;color:var(--gray);margin-top:8px}
+h2{font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;font-weight:600;font-size:24px;text-align:center;margin:4px 0 6px;letter-spacing:.12em}
+.sub{text-align:center;font-size:13px;color:var(--gray);margin-bottom:12px}
+.bubbles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0 14px}
+.bubbles span{border:1.5px solid #D9CBE6;border-radius:999px;padding:4px 12px;font-size:13px;background:#fff}
+.band{background:linear-gradient(90deg,#C9BCE3,#F1C9DD);color:#fff;text-align:center;font-weight:700;letter-spacing:.12em;border-radius:12px 12px 12px 0;padding:8px 10px;margin:0 0 14px;font-size:15px}
+.q{display:flex;gap:10px;align-items:flex-start;margin:4px 0 8px}
+.q .no{flex:none;background:linear-gradient(135deg,#E9B8D2,#C4B5E2);color:#fff;font-weight:800;border-radius:8px;padding:2px 9px;font-size:15px;line-height:1.7}
+.q .t{font-weight:700;font-size:15px;line-height:1.6}
+.hint{font-size:12px;color:var(--gray);margin:-2px 0 8px}
+textarea,input[type=text],input[type=number],input[type=date]{width:100%;border:1.5px solid #E1D8EA;border-radius:12px;padding:10px 12px;font:inherit;font-size:16px;line-height:1.6;color:var(--ink);background:#fff}
+textarea{min-height:120px;resize:vertical;background-image:repeating-linear-gradient(transparent 0 33px,#F0EBF4 33px 34px);background-attachment:local;line-height:34px;padding-top:2px}
+textarea:focus,input:focus{outline:none;border-color:var(--pink)}
+.wish{border:1.5px solid #E5DCEC;border-radius:16px;padding:14px;position:relative}
+.wish .ttl{text-align:center;color:#9C7CC0;letter-spacing:.14em;font-weight:700;margin-bottom:6px}
+.wrow{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.wrow .dia{color:#C9A7DA;flex:none}
+.wrow input{border:none;border-bottom:1.5px dotted #D8CDE3;border-radius:0;padding:6px 2px}
+.field{margin:12px 0}
+.field label{display:block;font-weight:700;font-size:15px;margin-bottom:6px}
+.yen{display:flex;align-items:center;gap:8px}
+.yen input{background:var(--pink-soft);border-color:var(--pink-soft);text-align:right;font-weight:700}
+.yen span{flex:none}
+.pie-wrap{display:flex;gap:14px;align-items:center;margin:10px 0}
+.pie{flex:none;width:130px;height:130px;border-radius:50%;background:var(--lav-soft);position:relative}
+.pie::after{content:"";position:absolute;inset:34%;background:#fff;border-radius:50%}
+.legend{font-size:13px;line-height:1.7}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.alloc .ar{display:grid;grid-template-columns:1fr 130px;gap:8px;align-items:center;margin-bottom:6px;font-size:14px}
+.alloc .ar input{padding:7px 10px;text-align:right}
+.alloc .ar .nm{display:flex;align-items:center;gap:6px}
+.alloc .ar .nm i{width:10px;height:10px;border-radius:3px;flex:none}
+.sumline{font-size:12px;color:var(--gray);text-align:right}
+.month{border:1.5px solid var(--line);border-radius:18px;margin:14px 0;background:#fff;overflow:hidden}
+.month>summary{list-style:none;cursor:pointer;padding:14px 44px 14px 14px;position:relative;display:flex;align-items:center;gap:12px}
+.month>summary::-webkit-details-marker{display:none}
+.month>summary::after{content:"＋";position:absolute;right:14px;color:var(--pink);font-size:18px}
+.month[open]>summary::after{content:"－"}
+.mno{font-family:Georgia,serif;font-style:italic;color:#fff;background:linear-gradient(135deg,#F2C6DB,#C8B9E6);border-radius:10px;padding:4px 12px;font-size:20px}
+.mt b{display:block;letter-spacing:.12em;font-size:14px}
+.mt small{color:var(--gray);font-size:12px}
+.mbody{padding:0 14px 16px}
+.diff{font-size:13px;font-weight:700;margin-top:4px}
+.diff.up{color:#3C8D6E}.diff.down{color:#C0566A}
+.checks label{display:flex;gap:8px;align-items:flex-start;font-size:14px;margin-bottom:4px}
+.checks input{margin-top:6px;width:18px;height:18px;accent-color:var(--pink)}
+.goal3 input{background:var(--pink-soft);border-color:var(--pink-soft);margin-bottom:6px}
+.decl{background:var(--lav-soft);border-radius:14px;padding:12px;text-align:center}
+.decl .h{letter-spacing:.14em;font-weight:700}
+.decl .e{font-size:10px;color:#B7A9D3;letter-spacing:.1em;margin-bottom:6px}
+.decl textarea{background-color:#fff;min-height:100px;text-align:center}
+.btn{display:block;width:100%;border:none;border-radius:999px;padding:13px 16px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;text-align:center}
+.btn.primary{background:linear-gradient(90deg,#D57AAA,#A893D6);color:#fff;box-shadow:0 3px 10px rgba(201,103,154,.3)}
+.btn.ghost{background:#fff;color:var(--ink);border:1.5px solid #E1D8EA}
+.btns{display:grid;gap:10px;margin-top:12px}
+.sample{background:#F3EEF8;border-radius:14px;padding:12px 14px;font-size:13px;margin:8px 0 4px}
+.sample b{color:#9C7CC0}
+.saved{font-size:12px;color:#3C8D6E;text-align:center;min-height:18px;margin-top:6px}
+.privacy{font-size:12px;color:var(--gray);text-align:center;margin-top:10px}
+.foot{font-size:11px;color:var(--gray);text-align:center;margin-top:20px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section class="cover">
+  <div class="ey">世界一分かりやすい株のはじめ方3days｜ライブ特典</div>
+  <h1>お金が増える人の<br>資産管理ノート</h1>
+  <p>書くたびに、理想の未来が近づく。<br>スマホでそのまま書き込めます📝</p>
+</section>
+
+<section class="card msg">
+  <p>こんにちは！松下りせです✨</p>
+  <p>みなさんは、自分の人生に点数をつけるとしたら何点ですか？</p>
+  <p>わたしはたった一度きりの人生、自分で自分の人生を選択する生き方をしようと決意し、</p>
+  <p><span class="hl">投資を始めたことで、お金や時間に縛られない自由な生き方を叶えることができました。</span></p>
+  <p>実は自分の目標を達成するために、毎月振り返りをしたり、これからの戦略を立てているんです。</p>
+  <p>そんな億超えの投資ができるようになったわたしの毎月のルーティンが、あなたにもできるオリジナルノートをご用意しました！</p>
+  <p style="margin:0">このノートを使って、夢を欲張りに叶えて、自分史上最高の人生にアップデートしてくださいね♡</p>
+  <div class="sign">HANAMIRA ／ RISE MATSUSHITA</div>
+</section>
+
+<section class="card">
+  <h2>まずはじめに</h2>
+  <div class="sub">もっとお金があったら、もっと時間があったら…</div>
+  <div class="bubbles"><span>子どもに好きな習い事をさせてあげたい</span><span>あんな場所に行ってみたい✨</span><span>憧れのバッグやお洋服を買いたい♪</span><span>親孝行をしたい</span><span>他にもこんなことがしてみたい♡</span></div>
+  <p style="font-size:14px">私たちは普段、無意識のうちに、やりたいことや好きなことがあっても「お金」という点で制限をつけてしまっています。</p>
+  <p style="text-align:center;font-weight:700;margin:0">まずはお金の制限を取っ払って<br>自分の好きなものを思い描いてみましょう。</p>
+</section>
+
+<section class="card">
+  <div class="q"><span class="no">Q1</span><span class="t">あなたがワクワクする好きなことを、思いつくまま書き出してみよう</span></div>
+  <textarea data-k="q1" placeholder="例）旅行、カフェめぐり、推し活、ヨガ…"></textarea>
+</section>
+
+<section class="card">
+  <div class="q"><span class="no">Q2</span><span class="t">理想の生活を具体的に書き出してみよう✨</span></div>
+  <div class="hint">住む場所、働き方、一緒にいる人、1日の過ごし方…など</div>
+  <textarea data-k="q2" placeholder="例）海の見える家で、午前だけ好きな仕事をして、午後は子どもと過ごす"></textarea>
+</section>
+
+<section class="card">
+  <div class="q"><span class="no">Q3</span><span class="t">120点満点の人生にするために、どんなことを叶えたいですか？</span></div>
+  <div class="hint">夢を100個書く気持ちで書き出してみて！</div>
+  <textarea data-k="q3" placeholder="例）家族で毎年海外旅行／両親に旅行をプレゼント／自分の教室をひらく…"></textarea>
+</section>
+
+<section class="card">
+  <div class="band">自分史上最高の1年にするために…</div>
+  <div class="q"><span class="no">Q4</span><span class="t">この1年間でやりたいことを7つあげよう！</span></div>
+  <div class="wish">
+    <div class="ttl">7つのWISHLIST</div>
+    <div id="wishes"></div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="band">まずは現在地を把握しよう！</div>
+  <div class="field"><label>今の資産の総額は？</label>
+    <div class="yen"><input type="number" inputmode="numeric" data-k="startTotal" placeholder="0"><span>円</span></div></div>
+  <div class="field"><label>ざっくりでOK！今の資産の内訳を書いてみよう</label>
+    <div class="hint">証券会社や家計簿アプリの数字を見ながらでもOK</div>
+    <div class="pie-wrap"><div class="pie" id="pie_start"></div><div class="legend" id="leg_start"></div></div>
+    <div class="alloc" id="alloc_start"></div>
+    <div class="sumline" id="sum_start"></div>
+  </div>
+  <div class="field"><label>1年でいくら増やしたいか書こう</label>
+    <div class="yen"><input type="number" inputmode="numeric" data-k="goalYear" placeholder="0"><span>円</span></div></div>
+  <div class="field"><label>この日付から、スタート！</label>
+    <input type="date" data-k="startDate"></div>
+</section>
+
+<section class="card">
+  <h2 style="font-size:20px;letter-spacing:.08em">MONTHLY CHECK ROUTINE</h2>
+  <div class="sub">スタートした日から1か月ごとに書いてみてね</div>
+  <details>
+    <summary style="cursor:pointer;font-size:13px;color:#9C7CC0;font-weight:700">▶ 記入見本を見る</summary>
+    <div class="sample">
+      <b>今の資産の総額</b>　5,000,000円<br>
+      <b>内訳</b>　銀行預金・つみたてNISA・保険・その他<br>
+      <b>今月は目標のために何をする？</b><br>・証券口座を新たに開設する<br>・サブスクや固定費を見直す<br>・個別株をひとつ買ってみる<br>
+      <b>1か月目でできたこと</b><br>・〇〇証券を開設してポイントゲットした<br>・使ってないサブスクを解約した<br>・格安SIMに乗り換えた<br>
+      <b>ポジティブ未来宣言</b><br>どうせ、わたしならうまくいく♡ 来月もやりたいことをよくばりにやっていこう！
+    </div>
+  </details>
+  <div id="months"></div>
+  <div class="btns"><button class="btn primary" id="addMonth">＋ 次の月のページを追加する</button></div>
+</section>
+
+<section class="card">
+  <div class="saved" id="saved">書いた内容は、このスマホに自動で保存されます</div>
+  <div class="btns"><button class="btn ghost" id="copyAll">ノートの内容をまとめてコピーする（メモアプリにバックアップ）</button></div>
+  <div class="privacy">入力した内容（資産の金額など）は、あなたのスマホの中だけに保存されます。<br>ハナミラや松下りせに送られることはありません。<br>ブラウザの履歴を消したり、別のスマホで開いたりすると表示されないので、ときどきコピーしてバックアップしてね。</div>
+</section>
+
+<div class="foot">© 2026 株式会社ハナミラ</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='hanamira_asset_note_2026';
+const CATS=[['bank','銀行預金','#C9BCE3'],['nisa','NISA・投資信託','#F1B8D2'],['stock','株','#E79AB8'],['ins','保険','#B4D3E8'],['other','その他','#DCD6E4']];
+let D={};
+try{ D=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ D={}; }
+if(!Array.isArray(D.months)) D.months=[];
+if(!D.alloc) D.alloc={};
+let tm;
+function save(){
+  clearTimeout(tm); tm=setTimeout(()=>{
+    try{ localStorage.setItem(KEY,JSON.stringify(D)); flash('保存しました ✓'); }
+    catch(e){ flash('自動保存できない設定です。下のボタンでコピーしておいてね'); }
+  },400);
+}
+function flash(t){ const s=document.getElementById('saved'); s.textContent=t; }
+function toast(t){ const el=document.getElementById('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1800); }
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function yen(n){ n=Number(n)||0; return n.toLocaleString('ja-JP'); }
+
+// 7つのWISHLIST
+document.getElementById('wishes').innerHTML=[0,1,2,3,4,5,6].map(i=>`<div class="wrow"><span class="dia">◆</span><input type="text" data-k="w${i}" placeholder="${i===0?'例）家族で沖縄旅行に行く':''}"></div>`).join('');
+
+// 内訳＋円グラフ
+function allocHTML(id){
+  return CATS.map(([k,n,c])=>`<div class="ar"><span class="nm"><i style="background:${c}"></i>${n}</span><input type="number" inputmode="numeric" data-a="${id}" data-c="${k}" placeholder="0円"></div>`).join('');
+}
+function drawPie(id, obj){
+  const vals=CATS.map(([k])=>Number((obj||{})[k])||0); const sum=vals.reduce((a,b)=>a+b,0);
+  const pie=document.getElementById('pie_'+id), leg=document.getElementById('leg_'+id), sl=document.getElementById('sum_'+id);
+  if(!pie) return;
+  if(!sum){ pie.style.background='var(--lav-soft)'; leg.innerHTML='<span style="color:var(--gray)">金額を入れると<br>円グラフができます</span>'; if(sl) sl.textContent=''; return; }
+  let acc=0; const parts=[];
+  CATS.forEach(([k,n,c],i)=>{ if(!vals[i]) return; const s=acc/sum*360; acc+=vals[i]; parts.push(`${c} ${s}deg ${acc/sum*360}deg`); });
+  pie.style.background=`conic-gradient(${parts.join(',')})`;
+  leg.innerHTML=CATS.map(([k,n,c],i)=>vals[i]?`<div><i style="background:${c}"></i>${n} ${Math.round(vals[i]/sum*100)}%</div>`:'').join('');
+  if(sl) sl.textContent=`内訳の合計：${yen(sum)}円`;
+}
+document.getElementById('alloc_start').innerHTML=allocHTML('start');
+
+// 月ごとのページ
+function monthHTML(m,i){
+  const prev = i===0 ? Number(D.startTotal)||0 : Number(D.months[i-1].total)||0;
+  return `<details class="month" ${i===D.months.length-1?'open':''}>
+    <summary><span class="mno">No.${i+1}</span><span class="mt"><b>MONTHLY CHECK</b><small>${m.date?esc(m.date):'日付を入れてね'}</small></span></summary>
+    <div class="mbody">
+      <div class="field"><label>日付</label><input type="date" data-m="${i}" data-f="date" value="${esc(m.date)}"></div>
+      <div class="field"><label>今の資産の総額は？</label>
+        <div class="yen"><input type="number" inputmode="numeric" data-m="${i}" data-f="total" value="${esc(m.total)}" placeholder="0"><span>円</span></div>
+        <div class="diff" id="diff_${i}"></div></div>
+      <div class="field"><label>${i+1}か月目の資産の内訳を書いてみよう</label>
+        <div class="pie-wrap"><div class="pie" id="pie_m${i}"></div><div class="legend" id="leg_m${i}"></div></div>
+        <div class="alloc">${allocHTML('m'+i)}</div><div class="sumline" id="sum_m${i}"></div></div>
+      <div class="field goal3"><label>今月は目標のために何をする？？</label>
+        <div class="hint">期限を決めると実行しやすいよ！</div>
+        ${[0,1,2].map(j=>`<input type="text" data-m="${i}" data-f="todo${j}" value="${esc(m['todo'+j])}" placeholder="${j===0?'例）証券口座を開設する':''}">`).join('')}</div>
+      <div class="field checks"><label>7つのWISHLISTを振り返ろう</label>
+        <div class="hint">叶ったもの・近づいたものにチェック✓</div>
+        <div id="wcheck_${i}"></div></div>
+      <div class="field"><label>${i+1}か月目でできたことを書き出してみよう♡</label>
+        <textarea data-m="${i}" data-f="done" placeholder="例）使ってないサブスクを解約した">${esc(m.done)}</textarea></div>
+      <div class="decl"><div class="h">ポジティブ未来宣言</div><div class="e">Declaration of the future</div>
+        <textarea data-m="${i}" data-f="decl" placeholder="どうせ、わたしならうまくいく♡">${esc(m.decl)}</textarea></div>
+    </div></details>`;
+}
+function renderMonths(){
+  document.getElementById('months').innerHTML = D.months.length ? D.months.map(monthHTML).join('') : '<p class="hint" style="text-align:center;margin:12px 0 0">スタートから1か月たったら、下のボタンで1か月目のページを追加してね</p>';
+  D.months.forEach((m,i)=>{
+    document.querySelectorAll(`[data-a="m${i}"]`).forEach(inp=>{ const v=(m.alloc||{})[inp.dataset.c]; if(v) inp.value=v; });
+    drawPie('m'+i, m.alloc); drawDiff(i); drawWcheck(i);
+  });
+}
+function drawDiff(i){
+  const el=document.getElementById('diff_'+i); if(!el) return;
+  const prev = i===0 ? Number(D.startTotal)||0 : Number(D.months[i-1].total)||0;
+  const cur = Number(D.months[i].total)||0;
+  if(!prev||!cur){ el.textContent=''; el.className='diff'; return; }
+  const d=cur-prev; el.className='diff '+(d>=0?'up':'down');
+  el.textContent = `${i===0?'スタート時':'先月'}から ${d>=0?'+':''}${yen(d)}円 ${d>=0?'📈':''}`;
+}
+function drawWcheck(i){
+  const el=document.getElementById('wcheck_'+i); if(!el) return;
+  const m=D.months[i]; m.wc=m.wc||{};
+  const items=[0,1,2,3,4,5,6].map(j=>({j,t:(D['w'+j]||'').trim()})).filter(x=>x.t);
+  el.innerHTML = items.length ? items.map(x=>`<label><input type="checkbox" data-m="${i}" data-wc="${x.j}" ${m.wc[x.j]?'checked':''}><span>${esc(x.t)}</span></label>`).join('') : '<span class="hint">上の「7つのWISHLIST」を書くと、ここに出てきます</span>';
+}
+
+// 入力の保存
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.k){ D[t.dataset.k]=t.value; if(t.dataset.k==='startTotal') D.months.forEach((_,i)=>drawDiff(i)); if(/^w\d$/.test(t.dataset.k)) D.months.forEach((_,i)=>drawWcheck(i)); save(); return; }
+  if(t.dataset.a){
+    if(t.dataset.a==='start'){ D.alloc[t.dataset.c]=t.value; drawPie('start',D.alloc); }
+    else { const i=+t.dataset.a.slice(1); const m=D.months[i]; m.alloc=m.alloc||{}; m.alloc[t.dataset.c]=t.value; drawPie('m'+i,m.alloc); }
+    save(); return;
+  }
+  if(t.dataset.m!==undefined && t.dataset.f){
+    const i=+t.dataset.m; D.months[i][t.dataset.f]=t.value;
+    if(t.dataset.f==='total'){ drawDiff(i); if(D.months[i+1]) drawDiff(i+1); }
+    if(t.dataset.f==='date'){ const s=t.closest('details').querySelector('.mt small'); if(s) s.textContent=t.value||'日付を入れてね'; }
+    save();
+  }
+});
+document.addEventListener('change',e=>{
+  const t=e.target; if(t.dataset.wc!==undefined){ const m=D.months[+t.dataset.m]; m.wc=m.wc||{}; m.wc[t.dataset.wc]=t.checked; save(); }
+});
+document.getElementById('addMonth').onclick=()=>{
+  const last = D.months.length ? D.months[D.months.length-1] : null;
+  D.months.push({ alloc: last && last.alloc ? {...last.alloc} : {...D.alloc} });
+  save(); renderMonths();
+  const els=document.querySelectorAll('.month'); els[els.length-1].scrollIntoView({behavior:'smooth',block:'start'});
+};
+
+// まとめてコピー
+function summary(){
+  const L=['【お金が増える人の資産管理ノート】',''];
+  const add=(h,v)=>{ L.push('■'+h, (v||'').trim()||'（未記入）',''); };
+  add('Q1 ワクワクする好きなこと',D.q1); add('Q2 理想の生活',D.q2); add('Q3 120点満点の人生にするために叶えたいこと',D.q3);
+  L.push('■Q4 7つのWISHLIST'); [0,1,2,3,4,5,6].forEach(j=>{ if((D['w'+j]||'').trim()) L.push('◆'+D['w'+j].trim()); }); L.push('');
+  L.push('■現在地'+(D.startDate?`（${D.startDate}）`:''),'資産の総額：'+(D.startTotal?yen(D.startTotal)+'円':'未記入'));
+  CATS.forEach(([k,n])=>{ if(Number(D.alloc[k])) L.push(`　${n}：${yen(D.alloc[k])}円`); });
+  L.push('1年で増やしたい額：'+(D.goalYear?yen(D.goalYear)+'円':'未記入'),'');
+  D.months.forEach((m,i)=>{
+    L.push(`■MONTHLY CHECK No.${i+1}`+(m.date?`（${m.date}）`:''),'資産の総額：'+(m.total?yen(m.total)+'円':'未記入'));
+    const todos=[0,1,2].map(j=>(m['todo'+j]||'').trim()).filter(Boolean); if(todos.length) L.push('今月やること：'+todos.join('／'));
+    if((m.done||'').trim()) L.push('できたこと：'+m.done.trim());
+    if((m.decl||'').trim()) L.push('ポジティブ未来宣言：'+m.decl.trim());
+    L.push('');
+  });
+  return L.join('\n');
+}
+document.getElementById('copyAll').onclick=async()=>{
+  try{ await navigator.clipboard.writeText(summary()); toast('コピーしました。メモアプリに貼っておいてね'); }
+  catch(e){ toast('コピーできませんでした'); }
+};
+
+// 保存してある内容を戻す
+document.querySelectorAll('[data-k]').forEach(el=>{ if(D[el.dataset.k]!=null) el.value=D[el.dataset.k]; });
+document.querySelectorAll('[data-a="start"]').forEach(el=>{ const v=D.alloc[el.dataset.c]; if(v) el.value=v; });
+drawPie('start',D.alloc);
+renderMonths();
+</script>
+</body>
+</html>
