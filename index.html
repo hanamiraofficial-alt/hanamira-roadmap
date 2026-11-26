@@ -74,19 +74,6 @@ textarea{resize:vertical;min-height:110px}
 details summary{cursor:pointer;font-size:13px;color:var(--muted);padding:8px 0}
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none}
 .toast.show{opacity:1}
-.voices{background:#fff;border-radius:16px;box-shadow:0 1px 3px rgba(43,58,92,.08);overflow:hidden}
-.voices>summary{list-style:none;display:flex;align-items:center;gap:10px;padding:14px 16px;color:var(--navy);font-size:14px}
-.voices>summary::-webkit-details-marker{display:none}
-.voices>summary .open-lbl{flex:none;font-size:12px;font-weight:700;color:#fff;background:var(--coral-dk);border-radius:999px;padding:4px 12px}
-.voices[open]>summary .open-lbl::after{content:'閉じる'}
-.voices:not([open])>summary .open-lbl::after{content:'見る'}
-.vlist{display:flex;flex-direction:column;gap:14px;padding:0 16px 16px}
-.vitem{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--navy)}
-.vthumb{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#F1E4E7}
-.vthumb img{width:100%;height:100%;object-fit:cover;display:block}
-.vthumb .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.vname{font-size:12px;font-weight:700;color:var(--coral-tx)}
-.vttl{font-size:14px;line-height:21px;font-weight:700}
 </style>
 </head>
 <body>
@@ -130,22 +117,6 @@ async function api(action, extra){
   const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(body) });
   if (!res.ok) throw new Error('通信エラーが起きました（' + res.status + '）');
   return res.json();
-}
-
-/* ===== 株の先輩たちの投資デビュー実録（体験談動画） ===== */
-const VOICES = [
-  { name:'かずみさん', title:'元看護士・3児ママが月70万円の利益！', id:'K3btPOKIOvo' },
-  { name:'さやかさん', title:'3年で5倍！元教師・3児ママが資産5000万円を突破するまで', id:'3dsEakJW7cc' },
-  { name:'りなこさん', title:'月収以上の利益を達成し、憧れのアパレルブランドを立ち上げ', id:'2yJVnlV6-pM' },
-  { name:'みことさん', title:'元看護師・3児のママ　資産3倍を叶えて、節約生活から解放された', id:'5vxOQ3Gkzj0' },
-  { name:'なみさん', title:'アラフィフ会社員が4年で資産10倍を達成した軌跡　投資の利益で新車を旦那様にプレゼント', id:'mu-S1S_Ol4Q' },
-];
-function voicesHtml(){
-  const play = '<svg width="52" height="36" viewBox="0 0 52 36" aria-hidden="true"><rect width="52" height="36" rx="10" style="fill:rgba(200,64,90,.92)"/><path d="M21 11l12 7-12 7z" style="fill:#fff"/></svg>';
-  const items = VOICES.map(v => `<a href="#" class="vitem" data-open="https://youtu.be/${esc(v.id)}">
-      <div class="vthumb"><img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><div class="play">${play}</div></div>
-      <div class="vname">${esc(v.name)}</div><div class="vttl">${esc(v.title)}</div></a>`).join('');
-  return `<details class="voices"><summary><span style="flex:1"><b style="font-size:15px">株の先輩たちの投資デビュー実録</b><br><span class="small">受講生${VOICES.length}名の体験談動画</span></span><span class="open-lbl"></span></summary><div class="vlist">${items}</div></details>`;
 }
 
 function openUrl(url){
@@ -271,7 +242,6 @@ function render(){
     <div>${routeHtml}</div>
     ${gets.length ? `<div><h2>特典ゲットワーク</h2><div class="small">やりたいものから自由にどうぞ。オプチャにシェアすると特典が届きます</div></div><div class="list">${getHtml}</div>` : ''}
     ${extras.length ? `<div><h2>11月追加特典</h2><div class="small">ライブの感想やアウトプットをオプチャに投稿すると受け取れます</div></div><div class="list">${extraHtml}</div>` : ''}
-    <div style="margin-top:8px">${voicesHtml()}</div>
     
     <details><summary>マストワークを出したのに提出済みにならない方へ</summary>
       <div class="card" style="display:flex;flex-direction:column;gap:10px">
