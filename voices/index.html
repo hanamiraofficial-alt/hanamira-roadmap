@@ -32,6 +32,10 @@ h1 em{font-style:normal;color:var(--coral)}
 .player .pl svg{width:20px;height:20px;margin-left:3px}
 .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2}
 .yt{display:inline-block;margin-top:10px;font-size:13px;color:var(--sub)}
+.new{display:inline-block;font-size:11px;font-weight:900;letter-spacing:.08em;color:#fff;background:var(--coral);border-radius:6px;padding:1px 8px;margin-right:6px;vertical-align:2px}
+.card.is-new{border:2px solid var(--coral);box-shadow:0 10px 28px -14px rgba(240,100,122,.6)}
+.card.is-new .num{color:var(--coral)}
+.jump a.is-new{background:var(--coral);color:#fff;border-color:var(--coral)}
 .note{font-size:12px;color:var(--gray);text-align:center;padding:10px 0 40px;line-height:1.7}
 </style>
 </head>
@@ -46,6 +50,7 @@ h1 em{font-style:normal;color:var(--coral)}
 <p class="note wrap">※体験談は個人の感想・実績であり、成果や利益を保証するものではありません。<br>投資にはリスクがあります。</p>
 <script>
 const VOICES = [
+  { name:'ひかるさん', title:'最新の受講生インタビュー', id:'L1YWJjrXyq8', isNew:true },
   { name:'かずみさん', title:'元看護士・3児ママが月70万円の利益！', id:'K3btPOKIOvo' },
   { name:'さやかさん', title:'3年で5倍！元教師・3児ママが資産5000万円を突破するまで', id:'3dsEakJW7cc' },
   { name:'りなこさん', title:'月収以上の利益を達成し、憧れのアパレルブランドを立ち上げ', id:'2yJVnlV6-pM' },
@@ -54,10 +59,10 @@ const VOICES = [
 ];
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const play = '<svg viewBox="0 0 20 20"><path d="M4 2l14 8-14 8z" fill="#fff"/></svg>';
-document.getElementById('jump').innerHTML = VOICES.map((v,i)=>`<a href="#v${i+1}">${esc(v.name)}</a>`).join('');
+document.getElementById('jump').innerHTML = VOICES.map((v,i)=>`<a href="#v${i+1}"${v.isNew?' class="is-new"':''}>${v.isNew?'NEW ':''}${esc(v.name)}</a>`).join('');
 document.getElementById('list').innerHTML = VOICES.map((v,i)=>`
-<section class="card" id="v${i+1}">
-  <div class="num">VOICE ${String(i+1).padStart(2,'0')}</div>
+<section class="card${v.isNew?' is-new':''}" id="v${i+1}">
+  <div class="num">${v.isNew?'<span class="new">NEW</span>特別追加':'VOICE '+String(VOICES.filter(x=>!x.isNew).indexOf(v)+1).padStart(2,'0')}</div>
   <div class="name">${esc(v.name)}</div>
   <div class="ttl">${esc(v.title)}</div>
   <div class="player" data-id="${esc(v.id)}" style="background-image:url(https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg)" role="button" aria-label="${esc(v.name)}の動画を再生"><span class="pl">${play}</span></div>
