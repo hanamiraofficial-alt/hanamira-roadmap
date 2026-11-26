@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>株の先輩たちの投資デビュー実録｜受講生の体験談動画</title>
+<meta name="robots" content="noindex">
+<meta property="og:title" content="株の先輩たちの投資デビュー実録">
+<meta property="og:description" content="ゼロから株をはじめた受講生のリアルな体験談動画まとめ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#2B3A5C;--coral:#F0647A;--pink:#FDECEF;--gray:#9AA0A6;--paper:#FFF9F7;--line:#F3DDE1;--sub:#6B7385}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"Noto Sans JP",sans-serif;color:var(--navy);background:var(--paper);line-height:1.8;font-size:16px}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+.hero{background:linear-gradient(160deg,#FFE3E8 0%,#FFF4F1 55%,var(--paper) 100%);padding:34px 0 24px;text-align:center}
+.lab{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;color:#fff;background:var(--coral);border-radius:999px;padding:2px 14px}
+h1{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:28px;line-height:1.4;margin:12px 0 10px}
+h1 em{font-style:normal;color:var(--coral)}
+.lead{font-size:14px;color:var(--sub)}
+.jump{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:18px}
+.jump a{font-size:13px;font-weight:700;text-decoration:none;color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px 16px 20px;margin:22px 0;box-shadow:0 8px 24px -16px rgba(240,100,122,.45)}
+.num{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:13px;color:var(--coral);letter-spacing:.08em}
+.name{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:22px;line-height:1.3}
+.ttl{font-size:15px;font-weight:700;line-height:1.6;margin-top:6px}
+.player{position:relative;aspect-ratio:16/9;margin-top:14px;border-radius:14px;overflow:hidden;background:#2B3A5C center/cover no-repeat;cursor:pointer}
+.player::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.35))}
+.player .pl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1;width:68px;height:48px;border-radius:14px;background:rgba(240,100,122,.95);display:grid;place-items:center}
+.player .pl svg{width:20px;height:20px;margin-left:3px}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2}
+.yt{display:inline-block;margin-top:10px;font-size:13px;color:var(--sub)}
+.note{font-size:12px;color:var(--gray);text-align:center;padding:10px 0 40px;line-height:1.7}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <span class="lab">受講生の体験談動画</span>
+  <h1>株の先輩たちの<br><em>投資デビュー実録</em></h1>
+  <p class="lead">最初はみんな<br>「株なんて私には無理」と思っていました。<br>ゼロからはじめた先輩たちのリアルな声を、<br>気になる人から見てみてくださいね。</p>
+  <nav class="jump" id="jump"></nav>
+</div></header>
+<main class="wrap" id="list"></main>
+<p class="note wrap">※体験談は個人の感想・実績であり、成果や利益を保証するものではありません。<br>投資にはリスクがあります。</p>
+<script>
+const VOICES = [
+  { name:'かずみさん', title:'元看護士・3児ママが月70万円の利益！', id:'K3btPOKIOvo' },
+  { name:'さやかさん', title:'3年で5倍！元教師・3児ママが資産5000万円を突破するまで', id:'3dsEakJW7cc' },
+  { name:'りなこさん', title:'月収以上の利益を達成し、憧れのアパレルブランドを立ち上げ', id:'2yJVnlV6-pM' },
+  { name:'みことさん', title:'元看護師・3児のママ　資産3倍を叶えて、節約生活から解放された', id:'5vxOQ3Gkzj0' },
+  { name:'なみさん', title:'アラフィフ会社員が4年で資産10倍を達成した軌跡　投資の利益で新車を旦那様にプレゼント', id:'mu-S1S_Ol4Q' },
+];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const play = '<svg viewBox="0 0 20 20"><path d="M4 2l14 8-14 8z" fill="#fff"/></svg>';
+document.getElementById('jump').innerHTML = VOICES.map((v,i)=>`<a href="#v${i+1}">${esc(v.name)}</a>`).join('');
+document.getElementById('list').innerHTML = VOICES.map((v,i)=>`
+<section class="card" id="v${i+1}">
+  <div class="num">VOICE ${String(i+1).padStart(2,'0')}</div>
+  <div class="name">${esc(v.name)}</div>
+  <div class="ttl">${esc(v.title)}</div>
+  <div class="player" data-id="${esc(v.id)}" style="background-image:url(https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg)" role="button" aria-label="${esc(v.name)}の動画を再生"><span class="pl">${play}</span></div>
+  <a class="yt" href="https://youtu.be/${esc(v.id)}" target="_blank" rel="noopener">YouTubeアプリで見る ›</a>
+</section>`).join('');
+document.querySelectorAll('.player').forEach(p=>p.addEventListener('click',()=>{
+  if(p.querySelector('iframe')) return;
+  p.insertAdjacentHTML('beforeend',`<iframe src="https://www.youtube.com/embed/${p.dataset.id}?autoplay=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`);
+}));
+</script>
+</body>
+</html>
